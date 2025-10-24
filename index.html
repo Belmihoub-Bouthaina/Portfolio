@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-en="Bouthaina's Portfolio" data-ar="ملف أعمال بثينة">Belmihoub Bouthaina</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+</head>
+<body dir="ltr">
+    
+
+    <header class="main-header">
+        <div class="container header-content">
+            <button id="lang-toggle" aria-label="Language Toggle" data-en="عربي" data-ar="English">عربي</button>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="section intro-section" data-animate="fade-in">
+            <div class="intro-box container">
+                <div class="line-h line-h-top"></div>
+                <div class="diamond-wrapper">
+                    <div class="line-v line-v-top"></div>
+                    <div class="diamond-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <div class="line-v line-v-bottom"></div>
+                </div>
+                
+                <h1 class="main-title"><span data-en="Hello, I'm" data-ar="مرحباً، أنا">Hello, I'm</span> BELMIHOUB BOUTHAINA</h1>
+                <p class="subtitle tagline" 
+                   data-en="A Computer Science Student | Aspiring Developer with a passion for elegant and interactive web solutions." 
+                   data-ar="طالبة علم الحاسوب | مطوّرة طموحة بشغف نحو حلول الويب الأنيقة والتفاعلية.">
+                    A Computer Science Student | Aspiring Developer with a passion for elegant and interactive web solutions.
+                </p>
+                
+                <div class="line-h line-h-bottom"></div>
+                
+                <nav class="intro-nav">
+                    <a href="#skills" class="intro-nav-link" data-en="SKILLS" data-ar="مهارات">SKILLS</a>
+                    <a href="#studio3d" class="intro-nav-link" data-en="3D STUDIO" data-ar="استوديو 3D">3D STUDIO</a> 
+                    <a href="#cv" class="intro-nav-link" data-en="CV" data-ar="سيرة ذاتية">CV</a>
+                    <a href="#contact" class="intro-nav-link" data-en="CONTACT" data-ar="تواصل">CONTACT</a>
+                </nav>
+            </div>
+        </section>
+
+        <section id="skills" class="section content-section" data-animate="slide-up">
+            <div class="container">
+                <h2 data-en="My Skills & Projects" data-ar="مهاراتي ومشاريعي">My Skills & Projects</h2>
+                
+                <h3 data-en="Technical & Soft Skills" data-ar="المهارات التقنية والسلوكية" class="sub-major">Technical & Soft Skills</h3>
+                
+                <div class="skills-grid">
+                    <div class="skill-item" data-animate="progress">
+                        <i class="fas fa-chalkboard-teacher skill-icon"></i>
+                        <h4 data-en="Instruction/Teaching" data-ar="التدريس/التعليم">Instruction/Teaching</h4>
+                        <div class="progress-bar-container"><div class="progress-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="skill-item" data-animate="progress">
+                        <i class="fas fa-code skill-icon"></i>
+                        <h4 data-en="Web Development" data-ar="تطوير الويب">Web Development</h4>
+                        <div class="progress-bar-container"><div class="progress-bar" style="width: 60%;"></div></div>
+                    </div>
+                    <div class="skill-item" data-animate="progress">
+                        <i class="fas fa-paint-brush skill-icon"></i>
+                        <h4 data-en="Graphic Design (Canva)" data-ar="التصميم الجرافيكي (كانفا)">Graphic Design (Canva)</h4>
+                        <div class="progress-bar-container"><div class="progress-bar" style="width: 70%;"></div></div>
+                    </div>
+                    <div class="skill-item" data-animate="progress">
+                        <i class="fas fa-shopping-cart skill-icon"></i>
+                        <h4 data-en="E-commerce" data-ar="التجارة الإلكترونية">E-commerce</h4>
+                        <div class="progress-bar-container"><div class="progress-bar" style="width: 50%;"></div></div>
+                    </div>
+                    <div class="skill-item" data-animate="progress">
+                        <i class="fas fa-video skill-icon"></i>
+                        <h4 data-en="Video Editing (Premier Pro)" data-ar="تحرير الفيديو (بريمير برو)">Video Editing (Premier Pro)</h4>
+                        <div class="progress-bar-container"><div class="progress-bar" style="width: 50%;"></div></div>
+                    </div>
+                    <div class="skill-item" data-animate="progress">
+                        <i class="fas fa-handshake skill-icon"></i>
+                        <h4 data-en="Collaboration" data-ar="التعاون">Collaboration</h4>
+                        <div class="progress-bar-container"><div class="progress-bar" style="width: 90%;"></div></div>
+                    </div>
+                </div>
+
+                <hr class="separator" />
+
+                <h3 data-en="Featured Projects" data-ar="مشاريع مختارة" class="sub-major">Featured Projects</h3>
+
+                <div class="projects-grid" id="projects-container">
+                    <a href="pdf_api_project" class="project-card" target="_blank" data-animate="slide-up">
+                        <span class="image-placeholder"><i class="fas fa-file-pdf"></i></span> 
+                        <div class="project-info">
+                            <h4 data-en="PDF Management API" data-ar="واجهة برمجة تطبيقات لإدارة ملفات PDF">PDF Management API</h4>
+                            <p data-en="A backend service for processing and managing PDF documents." data-ar="خدمة خلفية لمعالجة وإدارة مستندات PDF.">A backend service for processing and managing PDF documents.</p>
+                            <span class="button small-button" data-en="View Project" data-ar="مشاهدة المشروع">View Project</span>
+                        </div>
+                    </a>
+
+                    <a href="M1-weather-.html" class="project-card" target="_blank" data-animate="slide-up">
+                        <span class="image-placeholder"><i class="fas fa-cloud-sun"></i></span> 
+                        <div class="project-info">
+                            <h4 data-en=" Weather App" data-ar="تطبيق الطقس M1"> Weather App</h4>
+                            <p data-en="A simple web application displaying current weather conditions." data-ar="تطبيق ويب بسيط يعرض أحوال الطقس الحالية.">A simple web application displaying current weather conditions.</p>
+                            <span class="button small-button" data-en="View Project" data-ar="مشاهدة المشروع">View Project</span>
+                        </div>
+                    </a>
+                    
+                    
+
+                    <a href="chefbot" class="project-card" target="_blank" data-animate="slide-up">
+                        <span class="image-placeholder"><i class="fas fa-robot"></i></span> 
+                        <div class="project-info">
+                            <h4 data-en="Chefbot - AI Recipe Generator" data-ar="شيفبوت - مولد الوصفات بالذكاء الاصطناعي">Chefbot - AI Recipe Generator</h4>
+                            <p data-en="An AI-powered recipe tool..." data-ar="تطبيق يعمل بالذكاء الاصطناعي لإنشاء وتخصيص وتوسيع نطاق وصفات الطعام.">AI-powered recipe tool...</p>
+                            <span class="button small-button" data-en="View Project" data-ar="مشاهدة المشروع">View Project</span>
+                        </div>
+                    </a>
+                    
+                    <a href="Buddy_Bot" class="project-card" target="_blank" data-animate="slide-up">
+                        <span class="image-placeholder"><i class="fas fa-headset"></i></span>
+                        <div class="project-info">
+                            <h4 data-en=" Buddy Chatbot" data-ar="روبوت الدردشة -Buddy">Buddy Chatbot</h4>
+                            <p data-en="Custom academic chatbot..." data-ar="روبوت محادثة مخصص لمساعدة الطلاب في الاستفسارات الأكاديمية على مستوى L3.">Custom academic chatbot...</p>
+                            <span class="button small-button" data-en="View Project" data-ar="مشاهدة المشروع">View Project</span>
+                        </div>
+                    </a>
+                    
+                    <div id="user-projects-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="studio3d" class="section content-section studio3d-section" data-animate="fade-in">
+            <div class="container">
+                <h2 data-en="3D Model Uploader & Viewer" data-ar="محمّل وعارض النماذج 3D">3D Model Uploader & Viewer</h2>
+                
+                <p class="contact-text" data-en="Upload a web-friendly 3D model (.glb recommended) to view and share it interactively." data-ar="قم بتحميل نموذج ثلاثي الأبعاد متوافق مع الويب (يوصى بـ .glb) لعرضه ومشاركته بشكل تفاعلي.">
+                    Upload a web-friendly 3D model (.glb recommended) to view and share it interactively.
+                </p>
+
+                <form id="studio3d-upload-form" class="upload-form">
+                    <div class="form-group">
+                        <label for="model-title" data-en="Model Title" data-ar="عنوان النموذج">Model Title</label>
+                        <input type="text" id="model-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="model-file" data-en="Upload 3D Model File (.glb, .gltf)" data-ar="تحميل ملف النموذج 3D">Upload 3D Model File (.glb, .gltf)</label>
+                        <input type="file" id="model-file" accept=".glb, .gltf" required>
+                        <small data-en="Only GLB or GLTF files can be viewed interactively." data-ar="يمكن عرض ملفات GLB أو GLTF فقط بشكل تفاعلي.">Only GLB or GLTF files can be viewed interactively.</small>
+                    </div>
+                    <div class="form-group">
+                         <label for="blender-link" data-en="Optional: Project Download Link (e.g., Blender file)" data-ar="اختياري: رابط تحميل المشروع (مثل ملف بلندر)">Optional: Project Download Link (e.g., Blender file)</label>
+                    </div>
+                    <button type="submit" class="button primary-button submit-button" data-en="View Model in Portfolio" data-ar="عرض النموذج في الملف">View Model in Portfolio</button>
+                    <p id="model-form-message" class="message"></p>
+                </form>
+
+                <hr class="separator" style="margin: 80px 0 50px;" />
+
+                <h3 data-en="Interactive 3D Models" data-ar="النماذج التفاعلية 3D" class="sub-major">Interactive 3D Models</h3>
+                
+                <div class="models-grid" id="models-viewer-container">
+                    <p id="no-models-msg" class="contact-text" data-en="No models uploaded yet. Use the form above to add your 3D creations!" data-ar="لم يتم تحميل أي نماذج بعد. استخدم النموذج أعلاه لإضافة إبداعاتك ثلاثية الأبعاد!">
+                        No models uploaded yet. Use the form above to add your 3D creations!
+                    </p>
+                </div>
+
+            </div>
+        </section>
+        
+        <section id="cv" class="section content-section" data-animate="fade-in">
+            <div class="container cv-content">
+                <h2 data-en="Curriculum Vitae" data-ar="السيرة الذاتية">Curriculum Vitae</h2>
+                <div class="cv-card">
+                    <h3 data-en="Professional Profile" data-ar="الملف المهني">Professional Profile</h3>
+                    <p data-en="Graduate with a degree in Informatics, I've shared my knowledge in web development and seek to enhance my competencies within a professional setting." 
+                       data-ar="حاصلة على إجازة في المعلوماتية، وقد شاركت بالفعل معرفتي مع آخرين في مجال الويب. أتطلع اليوم إلى تعزيز مهاراتي في إطار احترافي.">
+                        Graduate with a degree in Informatics, I've shared my knowledge in web development and seek to enhance my competencies within a professional setting.
+                    </p>
+                    
+                    <h3 data-en="Academic and Professional Training" data-ar="التكوين الأكاديمي والمهني">Academic and Professional Training</h3>
+                    <ul class="cv-list">
+                        <li>
+                            <p><strong>Licence en Informatique - Systèmes d'Information</strong></p>
+                            <p class="date">2021 - 2024 | Université Ferhat Abbas - Sétif 1</p>
+                        </li>
+                        <li>
+                            <p><strong>Baccalauréat - Scientifique</strong></p>
+                            <p class="date">2021 | Lycée Maazou Said AEK</p>
+                        </li>
+                        
+                    </ul>
+
+                    <a href="cv.pdf" download class="button primary-button download-button" data-en="Download CV" data-ar="تحميل السيرة الذاتية">
+                        <i class="fas fa-download"></i> Download CV (PDF)
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section content-section minimal-contact" data-animate="slide-up">
+            <div class="container">
+                <h2 data-en="Contact Me" data-ar="للتواصل">Contact Me</h2>
+                <div class="contact-email-box">
+                    <i class="fas fa-envelope contact-icon"></i>
+                    <p data-en="Email Address:" data-ar="عنوان البريد الإلكتروني:">Email Address:</p>
+                    <a href="mailto:your.email@gmail.com" class="email-link">belmihoubbouthaina@gmail.com</a>
+                </div>
+            </div>
+        </section>
+        </main>
+
+    <footer>
+        <p>&copy; Belmihoub Bouthaina. <span data-en="All rights reserved." data-ar="جميع الحقوق محفوظة.">All rights reserved.</span></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
