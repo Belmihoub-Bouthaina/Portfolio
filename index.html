@@ -41,7 +41,8 @@
                 
                 <nav class="intro-nav">
                     <a href="#skills" class="intro-nav-link" data-en="SKILLS" data-ar="مهارات">SKILLS</a>
-                    <a href="#studio3d" class="intro-nav-link" data-en="3D STUDIO" data-ar="استوديو 3D">3D STUDIO</a> 
+                    <a href="#studio3d" class="intro-nav-link" data-en="3D STUDIO" data-ar="استوديو 3D">3D STUDIO</a>
+                    <a href="#tps" class="intro-nav-link" data-en="TPs" data-ar="الأعمال التطبيقية">TPs</a>
                     <a href="#cv" class="intro-nav-link" data-en="CV" data-ar="سيرة ذاتية">CV</a>
                     <a href="#contact" class="intro-nav-link" data-en="CONTACT" data-ar="تواصل">CONTACT</a>
                 </nav>
@@ -136,44 +137,83 @@
         </section>
 
         <section id="studio3d" class="section content-section studio3d-section" data-animate="fade-in">
-    <div class="container">
-        <h2 data-en="File & Model Link Uploader" data-ar="محمّل روابط الملفات والنماذج">File & Model Link Uploader</h2>
-        
-        <p class="contact-text" data-en="Add a direct, permanent link to any document or 3D model (.glb, .gltf) to display it in your portfolio." data-ar="أضف رابطًا مباشرًا ودائمًا لأي مستند أو نموذج ثلاثي الأبعاد (glb.، gltf.) لعرضه في ملف أعمالك.">
-            Add a direct, permanent link to any document or 3D model (.glb, .gltf) to display it in your portfolio.
-        </p>
+            <div class="container">
+                <h2 data-en="3D Model Uploader & Viewer" data-ar="محمّل وعارض النماذج 3D">3D Model Uploader & Viewer</h2>
+                
+                <p class="contact-text" data-en="Upload a web-friendly 3D model (.glb recommended) to view and share it interactively." data-ar="قم بتحميل نموذج ثلاثي الأبعاد متوافق مع الويب (يوصى بـ .glb) لعرضه ومشاركته بشكل تفاعلي.">
+                    Upload a web-friendly 3D model (.glb recommended) to view and share it interactively.
+                </p>
 
-        <form id="studio3d-upload-form" class="upload-form">
-            <div class="form-group">
-                <label for="model-title" data-en="File/Model Title" data-ar="عنوان الملف/النموذج">File/Model Title</label>
-                <input type="text" id="model-title" required>
+                <form id="studio3d-upload-form" class="upload-form">
+                    <div class="form-group">
+                        <label for="model-title" data-en="Model Title" data-ar="عنوان النموذج">Model Title</label>
+                        <input type="text" id="model-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="model-file" data-en="Upload 3D Model File (.glb, .gltf)" data-ar="تحميل ملف النموذج 3D">Upload 3D Model File (.glb, .gltf)</label>
+                        <input type="file" id="model-file" accept=".glb, .gltf" required>
+                        <small data-en="Only GLB or GLTF files can be viewed interactively." data-ar="يمكن عرض ملفات GLB أو GLTF فقط بشكل تفاعلي.">Only GLB or GLTF files can be viewed interactively.</small>
+                    </div>
+                    <div class="form-group">
+                         <label for="blender-link" data-en="Optional: Project Download Link (e.g., Blender file)" data-ar="اختياري: رابط تحميل المشروع (مثل ملف بلندر)">Optional: Project Download Link (e.g., Blender file)</label>
+                         <input type="url" id="blender-link">
+                    </div>
+                    <button type="submit" class="button primary-button submit-button" data-en="View Model in Portfolio" data-ar="عرض النموذج في الملف">View Model in Portfolio</button>
+                    <p id="model-form-message" class="message"></p>
+                </form>
+
+                <hr class="separator" style="margin: 80px 0 50px;" />
+
+                <h3 data-en="Interactive 3D Models" data-ar="النماذج التفاعلية 3D" class="sub-major">Interactive 3D Models</h3>
+                
+                <div class="models-grid" id="models-viewer-container">
+                    <p id="no-models-msg" class="contact-text" data-en="No models uploaded yet. Use the form above to add your 3D creations!" data-ar="لم يتم تحميل أي نماذج بعد. استخدم النموذج أعلاه لإضافة إبداعاتك ثلاثية الأبعاد!">
+                        No models uploaded yet. Use the form above to add your 3D creations!
+                    </p>
+                </div>
+
             </div>
-            <div class="form-group">
-                <label for="document-url" data-en="Direct Link to File (.pdf, .zip, .glb, etc.)" data-ar="الرابط المباشر للملف (pdf.، zip.، glb.، إلخ)">Direct Link to File (.pdf, .zip, .glb, etc.)</label>
-                <input type="url" id="document-url" placeholder="https://external-host.com/my-project.pdf" required>
-                <small data-en="You must provide a direct URL to a file hosted externally (e.g., Google Drive, Dropbox, GitHub)." data-ar="يجب عليك توفير رابط URL مباشر لملف مستضاف خارجيًا (مثل Google Drive، Dropbox، GitHub).">You must provide a direct URL to a file hosted externally (e.g., Google Drive, Dropbox, GitHub).</small>
-            </div>
-            <div class="form-group">
-                 <label for="blender-link" data-en="Optional: Secondary Link (e.g., Source Code, Original Project File)" data-ar="اختياري: رابط ثانوي (مثل الكود المصدري، ملف المشروع الأصلي)">Optional: Secondary Link (e.g., Source Code, Original Project File)</label>
-                 <input type="url" id="blender-link">
-            </div>
-            <button type="submit" class="button primary-button submit-button" data-en="Add to Portfolio" data-ar="إضافة إلى الملف">Add to Portfolio</button>
-            <p id="model-form-message" class="message"></p>
-        </form>
-
-        <hr class="separator" style="margin: 80px 0 50px;" />
-
-        <h3 data-en="Interactive 3D Models" data-ar="النماذج التفاعلية 3D" class="sub-major">Interactive 3D Models</h3>
+        </section>
         
-        <div class="models-grid" id="models-viewer-container">
-            <p id="no-models-msg" class="contact-text" data-en="No models uploaded yet. Use the form above to add your 3D creations!" data-ar="لم يتم تحميل أي نماذج بعد. استخدم النموذج أعلاه لإضافة إبداعاتك ثلاثية الأبعاد!">
-                No models uploaded yet. Use the form above to add your 3D creations!
-            </p>
-        </div>
+        <section id="tps" class="section content-section" data-animate="fade-in">
+            <div class="container tps-content">
+                <h2 data-en="Technical Portfolio (TPs)" data-ar="الأعمال التطبيقية">Technical Portfolio (TPs)</h2>
+                
+                <h3 data-en="TP 1: Project Name/Description" data-ar="العمل التطبيقي 1: اسم/وصف المشروع" class="sub-major">TP 1: Project Name/Description</h3>
+                
+                <p data-en="This is a collection of mandatory practical works (TPs) from my academic journey. You can download the accompanying project files below, stored in the 'TP' folder." 
+                   data-ar="هذه مجموعة من الأعمال التطبيقية الإجبارية (TPs) من مسيرتي الأكاديمية. يمكنك تحميل ملفات المشروع المصاحبة أدناه، المخزنة في مجلد 'TP'.">
+                    This is a collection of mandatory practical works (TPs) from my academic journey. You can download the accompanying project files below, stored in the 'TP' folder.
+                </p>
+                
+                <div class="download-links-grid">
+                    <a href="https://drive.google.com/file/d/1Yo7YQ3wQ-cDHr7uMw6LTtvX1F-L04GtX/view?usp=sharing" download class="button download-link-item">
+                        <i class="fas fa-video"></i> 
+                        <span data-en="Video " data-ar=" فيديو ">Video </span>
+                    </a>
+                    
+                    <a href="https://drive.google.com/file/d/1EUkdaTqXa4lSYFQY4cah-A2Fj5lHGIux/view?usp=sharing" download class="button download-link-item">
+                        <i class="fas fa-image"></i> 
+                        <span data-en=" Image " data-ar="صورة "> Image </span>
+                    </a>
+                    
+                    <a href="https://drive.google.com/file/d/1wwf8qvgQtJOPMkXZEwTDDVhQqL8i_x_x/view?usp=sharing" download class="button download-link-item">
+                        <i class="fas fa-file-pdf"></i> 
+                        <span data-en="Report/Document (.pdf)" data-ar="تقرير/مستند (.pdf)">Report/Document (.pdf)</span>
+                    </a>
+                    
+                    <a href="https://drive.google.com/file/d/12s1nnKXMi6NuJI__XrDtCg085o1_lVl5/view?usp=sharing" download class="button download-link-item">
+                        <i class="fas fa-cubes"></i> 
+                        <span data-en="Source File (.blender)" data-ar="ملف المصدر (.blender)">Source File (.blender)</span>
+                    </a>
 
-    </div>
-</section>
-        
+                    <a href="https://drive.google.com/file/d/1B4Ps2EEeFdoiQLM24ZuuGD6kRncSslxb/view?usp=sharing" download class="button download-link-item">
+                        <i class="fas fa-cube"></i> 
+                        <span data-en="3D Model (.glb)" data-ar="نموذج ثلاثي الأبعاد (.glb)">3D Model (.glb)</span>
+                    </a>
+                </div>
+            </div>
+        </section>
         <section id="cv" class="section content-section" data-animate="fade-in">
             <div class="container cv-content">
                 <h2 data-en="Curriculum Vitae" data-ar="السيرة الذاتية">Curriculum Vitae</h2>
@@ -210,15 +250,12 @@
                 <div class="contact-email-box">
                     <i class="fas fa-envelope contact-icon"></i>
                     <p data-en="Email Address:" data-ar="عنوان البريد الإلكتروني:">Email Address:</p>
-                    <a href="mailto:your.email@gmail.com" class="email-link">belmihoubbouthaina@gmail.com</a>
+                    <a href="mailto:belmihoubbouthaina@gmail.com" class="email-link">belmihoubbouthaina@gmail.com</a>
                 </div>
             </div>
         </section>
         </main>
 
-    <footer>
-        <p>&copy; Belmihoub Bouthaina. <span data-en="All rights reserved." data-ar="جميع الحقوق محفوظة.">All rights reserved.</span></p>
-    </footer>
 
     <script src="script.js"></script>
 </body>
