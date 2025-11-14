@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // --- CONFIGURATION: Update this URL to your actual server address ---
+  const API_BASE_URL = "http://localhost:3000/api/projects";
+  // This assumes your backend has an endpoint at /api/projects
+
   // Global variable to track language status
   let isEnglish = true;
 
@@ -6,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const langToggle = document.getElementById("lang-toggle");
   const body = document.body;
 
-  // Function to apply language changes across the page
   const updateLanguage = () => {
     const lang = isEnglish ? "en" : "ar";
     const newDir = isEnglish ? "ltr" : "rtl";
@@ -20,7 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("[data-en], [data-ar]").forEach((element) => {
       const translation = element.getAttribute(`data-${lang}`);
       if (translation) {
-        // Handle placeholder translation for inputs/textareas
         if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
           element.setAttribute("placeholder", translation);
         } else {
@@ -28,7 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     });
-    // Update document title
     const titleElement = document.querySelector("title");
     if (titleElement) {
       titleElement.textContent =
@@ -43,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   updateLanguage(); // Initialize language on load
 
-  // --- 2. Smooth Scrolling ---
+  // --- 2. Smooth Scrolling (Omitted for brevity) ---
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", function (e) {
       e.preventDefault();
@@ -52,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (target) {
         const elementPosition = target.getBoundingClientRect().top;
-        // Offset to account for fixed header (60px)
         const offsetPosition =
           elementPosition +
           window.pageYOffset -
@@ -66,60 +66,76 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // --- 3. 3D STUDIO Submission & Display Logic (WITH LOCAL STORAGE PERSISTENCE) ---
+  // --- 3. UPLOAD & DISPLAY LOGIC (MODIFIED FOR API) ---
   const modelsContainer = document.getElementById("models-viewer-container");
   const modelForm = document.getElementById("studio3d-upload-form");
   const modelFormMessage = document.getElementById("model-form-message");
   const noModelsMsg = document.getElementById("no-models-msg");
 
-  let submittedModels = [];
+  let submittedModels = []; // Now holds data fetched from API
 
-  // Function to load data from Local Storage
-  const loadModelsFromStorage = () => {
+  /**
+   * Fetches all projects from the backend API.
+   */
+  const fetchModels = async () => {
     try {
-      const storedModels = localStorage.getItem("bouthaina_3d_models");
-      if (storedModels) {
-        const loadedModels = JSON.parse(storedModels);
-        // Assign a unique ID to any legacy models that are missing one
-        submittedModels = loadedModels.map((model) => ({
-          ...model,
-          id: model.id || Date.now() + Math.random(),
-        }));
+      const response = await fetch(API_BASE_URL);
+      if (!response.ok) {
+        throw new Error("Failed to fetch projects from server.");
       }
-    } catch (e) {
-      console.error("Error loading models from local storage:", e);
-      // Optionally clear storage if corrupted data causes continuous errors
-      // localStorage.removeItem('bouthaina_3d_models');
-    }
-  };
-
-  // Function to save data to Local Storage
-  const saveModelsToStorage = () => {
-    try {
-      localStorage.setItem(
-        "bouthaina_3d_models",
-        JSON.stringify(submittedModels)
-      );
-    } catch (e) {
-      console.error(
-        "Error saving models to local storage. File may be too large.",
-        e
-      );
-    }
-  };
-
-  // Deletion Logic using Model ID
-  const deleteModel = (modelId) => {
-    const indexToDelete = submittedModels.findIndex(
-      (model) => model.id === modelId
-    );
-
-    if (indexToDelete > -1) {
-      submittedModels.splice(indexToDelete, 1);
-      saveModelsToStorage();
+      submittedModels = await response.json();
       renderSubmittedModels();
-    } else {
-      console.error(`Model with ID ${modelId} not found for deletion.`);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+      modelFormMessage.textContent = isEnglish
+        ? "Error loading projects. Is the backend server running?"
+        : "خطأ في تحميل المشاريع. هل خادم الواجهة الخلفية يعمل؟";
+      modelFormMessage.style.color = "red";
+    }
+  };
+
+  /**
+   * Deletes a project by ID via the API.
+   */
+  const deleteModel = async (modelId) => {
+    if (
+      !confirm(
+        isEnglish
+          ? "Are you sure you want to delete this project?"
+          : "هل أنت متأكد أنك تريد حذف هذا المشروع؟"
+      )
+    ) {
+      return;
+    }
+
+    try {
+      // Note: Assumes your API for deletion is POST /api/projects/delete/:id or DELETE /api/projects/:id
+      const response = await fetch(`${API_BASE_URL}/delete/${modelId}`, {
+        method: "POST", // Using POST for broader CORS compatibility, but DELETE is standard
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete project on server.");
+      }
+
+      // Re-fetch and re-render the list after successful deletion
+      await fetchModels();
+      modelFormMessage.textContent = isEnglish
+        ? "Project deleted successfully."
+        : "تم حذف المشروع بنجاح.";
+      modelFormMessage.style.color = "#4CAF50";
+      setTimeout(() => {
+        modelFormMessage.textContent = "";
+      }, 3000);
+    } catch (error) {
+      console.error(`Error deleting model ${modelId}:`, error);
+      modelFormMessage.textContent = isEnglish
+        ? "Error deleting project. Check server console."
+        : "خطأ في حذف المشروع. تحقق من وحدة تحكم الخادم.";
+      modelFormMessage.style.color = "red";
     }
   };
 
@@ -134,21 +150,30 @@ document.addEventListener("DOMContentLoaded", () => {
       .slice()
       .reverse()
       .forEach((model) => {
-        const modelSource = model.dataURI;
+        // IMPORTANT: The server MUST return data with these property names!
+        // Primary link for viewing/downloading
+        const modelSource = model.mainUrl;
+        // Secondary link for source files, etc.
+        const secondaryLink = model.secondaryUrl;
+
+        // Determine if it's a 3D model (for interactive viewing)
+        const is3DModel =
+          modelSource &&
+          (modelSource.toLowerCase().endsWith(".glb") ||
+            modelSource.toLowerCase().endsWith(".gltf"));
 
         const card = document.createElement("div");
         card.className = "model-viewer-card";
 
-        // Check for a valid, non-empty link string
-        const hasLink =
-          model.link &&
-          typeof model.link === "string" &&
-          model.link.trim() !== "";
+        const hasSecondaryLink =
+          secondaryLink &&
+          typeof secondaryLink === "string" &&
+          secondaryLink.trim() !== "";
 
-        // Link Button setup
-        const linkButtonHtml = hasLink
-          ? `<a href="${model.link}" target="_blank" class="link-button" data-en="Download Project" data-ar="تحميل المشروع">Download Project <i class="fas fa-download"></i></a>`
-          : `<span class="link-button disabled-link" data-en="Link Not Provided" data-ar="لم يتم تقديم رابط">Link Not Provided</span>`;
+        // Secondary Link Button setup
+        const secondaryLinkHtml = hasSecondaryLink
+          ? `<a href="${secondaryLink}" target="_blank" class="link-button" data-en="Download Source/Project" data-ar="تحميل المصدر/المشروع">Download Source/Project <i class="fas fa-download"></i></a>`
+          : `<span class="link-button disabled-link" data-en="No Source Link" data-ar="لا يوجد رابط مصدر">No Source Link</span>`;
 
         // Deletion button setup
         const delete3DButton = document.createElement("button");
@@ -158,138 +183,122 @@ document.addEventListener("DOMContentLoaded", () => {
         delete3DButton.style.marginLeft = "10px";
         delete3DButton.innerHTML = `<i class="fas fa-trash"></i>`;
 
-        // Use the model's unique ID for reliable deletion
+        // Use the database ID (_id) for deletion
         delete3DButton.onclick = (e) => {
           e.preventDefault();
-          deleteModel(model.id);
+          deleteModel(model._id);
         };
 
         const headerContent = document.createElement("div");
         headerContent.style.display = "flex";
         headerContent.style.alignItems = "center";
-        headerContent.innerHTML = `<h4 data-en="Model: ${model.title}" data-ar="النموذج: ${model.title}">Model: ${model.title}</h4>`;
+        headerContent.innerHTML = `<h4 data-en="File: ${model.title}" data-ar="الملف: ${model.title}">File: ${model.title}</h4>`;
         headerContent.appendChild(delete3DButton);
 
+        // Conditional Viewer/Download Content
+        const viewerContent = is3DModel
+          ? `
+                        <model-viewer 
+                            src="${modelSource}" 
+                            alt="${model.title}" 
+                            shadow-intensity="1" 
+                            camera-controls 
+                            auto-rotate 
+                            min-field-of-view="10deg"
+                            max-field-of-view="90deg"
+                            loading="eager"
+                        ></model-viewer>`
+          : `<div class="document-download-container">
+                            <a href="${modelSource}" target="_blank" download="${model.title}" class="button primary-button large-button" data-en="Download Document" data-ar="تحميل المستند">
+                                <i class="fas fa-file-download"></i> Download Document
+                            </a>
+                        </div>`;
+
         card.innerHTML = `
-                <div class="model-viewer-header">
-                    ${headerContent.outerHTML}
-                    ${linkButtonHtml}
-                </div>
-                <div class="model-viewer-container">
-                    <model-viewer 
-                        src="${modelSource}" 
-                        alt="${model.title}" 
-                        shadow-intensity="1" 
-                        camera-controls 
-                        auto-rotate 
-                        min-field-of-view="10deg"
-                        max-field-of-view="90deg"
-                        loading="eager"
-                        >
-                    </model-viewer>
-                </div>
-            `;
+                        <div class="model-viewer-header">
+                            ${headerContent.outerHTML}
+                            ${secondaryLinkHtml}
+                        </div>
+                        <div class="model-viewer-container">
+                            ${viewerContent}
+                        </div>
+                    `;
         modelsContainer.appendChild(card);
 
-        // Re-apply language on new elements
         updateLanguage();
       });
   };
 
   if (modelForm) {
-    modelForm.addEventListener("submit", function (e) {
+    modelForm.addEventListener("submit", async function (e) {
       e.preventDefault();
 
-      // Retrieve elements defensively
       const titleInput = document.getElementById("model-title");
-      const fileInput = document.getElementById("model-file");
+      const urlInput = document.getElementById("document-url");
       const linkInput = document.getElementById("blender-link");
 
-      // --- Critical Check to prevent TypeError ---
-      // If the inputs are not found, stop the submission immediately.
-      if (!titleInput || !fileInput) {
-        console.error(
-          "Missing required form elements (model-title or model-file). Check HTML IDs."
-        );
-        modelFormMessage.textContent = isEnglish
-          ? "Internal error: Missing required form fields. Check console."
-          : "خطأ داخلي: حقول النموذج المطلوبة مفقودة. تحقق من وحدة التحكم.";
-        modelFormMessage.style.color = "red";
+      if (!titleInput || !urlInput) {
+        console.error("Missing required form elements. Check HTML IDs.");
         return;
       }
 
       const title = titleInput.value.trim();
-      const file = fileInput.files[0];
-      // Safely get the link value, defaulting to an empty string if the input is missing.
-      const blenderLink = linkInput ? linkInput.value.trim() : "";
+      const mainUrl = urlInput.value.trim(); // Renamed for clarity in data object
+      const secondaryUrl = linkInput ? linkInput.value.trim() : "";
 
-      // Basic validation
-      if (!title || !file) {
+      if (!title || !mainUrl) {
         modelFormMessage.textContent = isEnglish
-          ? "Model title and GLB/GLTF file are required."
-          : "عنوان النموذج وملف GLB/GLTF مطلوبان.";
-        modelFormMessage.style.color = "red";
-        return;
-      }
-      if (
-        !file.name.toLowerCase().endsWith(".glb") &&
-        !file.name.toLowerCase().endsWith(".gltf")
-      ) {
-        modelFormMessage.textContent = isEnglish
-          ? "File must be .glb or .gltf format."
-          : "يجب أن يكون الملف بتنسيق .glb أو .gltf.";
+          ? "Title and a direct file link (URL) are required."
+          : "العنوان ورابط الملف المباشر (URL) مطلوبان.";
         modelFormMessage.style.color = "red";
         return;
       }
 
-      const reader = new FileReader();
-
-      reader.onerror = function (err) {
-        console.error("FileReader Error:", err);
-        modelFormMessage.textContent = isEnglish
-          ? "Error reading file. Check file size and format."
-          : "خطأ في قراءة الملف. تحقق من حجم الملف وتنسيقه.";
-        modelFormMessage.style.color = "red";
+      // Collect data for the API
+      const newProject = {
+        title,
+        mainUrl, // The primary file/model URL
+        secondaryUrl, // The optional source/project link
+        // Add any other fields your Mongoose schema requires here
       };
 
-      reader.onload = function (event) {
-        const dataURI = event.target.result;
-
-        submittedModels.push({
-          id: Date.now(),
-          title,
-          dataURI,
-          link: blenderLink,
+      try {
+        const response = await fetch(API_BASE_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newProject),
         });
 
-        saveModelsToStorage();
-        renderSubmittedModels();
+        if (!response.ok) {
+          throw new Error("Failed to save project to server.");
+        }
 
+        // --- Success Handling ---
+        const savedProject = await response.json(); // Get the saved project back
+
+        // Clear the form and update the list
         modelForm.reset();
+        await fetchModels(); // Fetch the updated list from the server
+
         modelFormMessage.textContent = isEnglish
-          ? `3D Model "${title}" is now interactive in the studio!`
-          : `أصبح النموذج ثلاثي الأبعاد "${title}" تفاعلياً الآن في الاستوديو!`;
+          ? `Project "${title}" added successfully!`
+          : `تمت إضافة المشروع "${title}" بنجاح!`;
         modelFormMessage.style.color = "#4CAF50";
         setTimeout(() => {
           modelFormMessage.textContent = "";
         }, 5000);
-      };
-
-      // Check file size limit
-      const MAX_SIZE = 8 * 1024 * 1024; // 8MB limit for safety with Local Storage
-      if (file.size > MAX_SIZE) {
+      } catch (error) {
+        console.error("Error submitting project:", error);
         modelFormMessage.textContent = isEnglish
-          ? "File is too large for local storage (Max 8MB)."
-          : "الملف كبير جداً للتخزين المحلي (الحد الأقصى 8 ميجابايت).";
+          ? `Failed to add project. Check your server status and console.`
+          : `فشل في إضافة المشروع. تحقق من حالة الخادم ووحدة التحكم.`;
         modelFormMessage.style.color = "red";
-        return;
       }
-
-      reader.readAsDataURL(file);
     });
   }
 
-  // Initial calls
-  loadModelsFromStorage();
-  renderSubmittedModels();
+  // Initial load: Fetch existing projects from the API when the page loads
+  fetchModels();
 });

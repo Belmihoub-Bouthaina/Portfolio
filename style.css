@@ -632,3 +632,46 @@ footer {
         padding: 50px 0;
     }
 }
+/* --- New Styles for Document Download Button --- */
+
+.document-download-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Fill the entire 400px container */
+    padding: 20px;
+    background-color: var(--primary-color);
+}
+
+/* --- New Styles for Document Download Button --- */
+
+.document-download-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Fill the entire 400px container */
+    padding: 20px;
+    background-color: var(--primary-color);
+}
+
+.large-button {
+    padding: 20px 30px;
+    font-size: 1.2em;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 6px;
+    background-color: var(--accent-color);
+    color: var(--secondary-color);
+    border: none;
+    transition: background-color 0.3s, transform 0.2s;
+    text-align: center;
+}
+
+.large-button:hover {
+    background-color: #b1a0d0;
+    transform: translateY(-2px);
+}
+
+.large-button i {
+    margin-right: 10px;
+}
