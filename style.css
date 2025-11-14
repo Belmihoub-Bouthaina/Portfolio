@@ -632,46 +632,51 @@ footer {
         padding: 50px 0;
     }
 }
-/* --- New Styles for Document Download Button --- */
-
-.document-download-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%; /* Fill the entire 400px container */
-    padding: 20px;
-    background-color: var(--primary-color);
+/* New grid for the downloadable file links */
+.download-links-grid {
+    display: grid;
+    /* Create responsive columns: minimum 200px wide, max 1fr */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: 15px;
+    margin-top: 30px;
+    margin-bottom: 50px;
 }
 
-/* --- New Styles for Document Download Button --- */
-
-.document-download-container {
+/* Style for individual download buttons */
+.download-link-item {
     display: flex;
-    justify-content: center;
     align-items: center;
-    height: 100%; /* Fill the entire 400px container */
-    padding: 20px;
-    background-color: var(--primary-color);
-}
-
-.large-button {
-    padding: 20px 30px;
-    font-size: 1.2em;
-    font-weight: 700;
-    text-transform: uppercase;
-    border-radius: 6px;
-    background-color: var(--accent-color);
-    color: var(--secondary-color);
-    border: none;
-    transition: background-color 0.3s, transform 0.2s;
+    justify-content: center;
     text-align: center;
+    padding: 15px 10px;
+    /* Using accent and secondary colors for a distinct look */
+    background-color: var(--accent-color); 
+    color: var(--secondary-color); /* White/Light text */
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border: 2px solid var(--accent-color); /* Defined border for hover effect */
 }
 
-.large-button:hover {
-    background-color: #b1a0d0;
+.download-link-item i {
+    margin-inline-end: 8px; /* Space between icon and text */
+    font-size: 18px;
+}
+
+.download-link-item:hover {
+    /* Swap colors on hover */
+    background-color: var(--secondary-color);
+    color: var(--accent-color);
     transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.large-button i {
-    margin-right: 10px;
+/* Responsive adjustment for small screens */
+@media (max-width: 550px) {
+    .download-links-grid {
+        grid-template-columns: 1fr; /* Stack items on very small screens */
+    }
 }
